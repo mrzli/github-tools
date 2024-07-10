@@ -1,0 +1,58 @@
+{
+  "name": "@gmjs/github-cli",
+  "version": "0.0.1",
+  "description": "github-cli",
+  "author": {
+    "name": "Goran Mržljak",
+    "email": "goran.mrzljak@gmail.com",
+    "url": "https://mrzli.com"
+  },
+  "license": "MIT",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrzli/github-cli"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "bin": {
+    "gmgh": "src/index.js"
+  },
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "lint": "eslint --fix . && prettier --write .",
+    "lint:nofix": "eslint . && prettier --check .",
+    "test": "jest --passWithNoTests",
+    "test+": "pnpm run lint && pnpm run test",
+    "clean": "shx rm -rf ./dist",
+    "build": "pnpm run clean && tsc --project tsconfig.lib.json",
+    "build+": "pnpm run test+ && pnpm run build",
+    "pac": "pnpmpub pack -c project.json",
+    "pac+": "pnpm run build+ && pnpm run pac",
+    "pub": "pnpmpub pub -c project.json",
+    "pub+": "pnpm run pac+ && pnpm run pub"
+  },
+  "dependencies": {
+    "@gmjs/package-json": "^0.0.2",
+    "@gmjs/repo-list": "workspace:^",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "tslib": "^2.6.3"
+  },
+  "devDependencies": {
+    "@gmjs/eslint-config": "^0.0.38",
+    "@gmjs/pnpm-publish-cli": "^0.0.5",
+    "@jest/globals": "^29.7.0",
+    "@types/node": "^20.14.10",
+    "eslint": "^9.6.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.3.2",
+    "shx": "^0.3.4",
+    "ts-jest": "^29.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  },
+  "engines": {
+    "node": ">=22.3.0"
+  }
+}
