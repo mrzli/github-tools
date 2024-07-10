@@ -1,5 +1,5 @@
 import { filterOutNullish as filterOutNullishArray } from '@gmjs/array-transformers';
-import { ArchivedRepos, ArchivedReposResult, RepoData } from './types';
+import { ArchivedReposResult, OwnerWithRepos, RepoData } from './types';
 import { RepoPrimaryGroup, RepoSecondaryGroup } from './util/group-user-repos';
 
 export function toPrimaryGroupsLines(
@@ -60,11 +60,11 @@ export function toArchivedReposResultLines(
   return [
     '## Archived Repos',
     '',
-    ...toArchivedReposLines(user, true),
+    ...toOwnerWithReposLine(user, true),
     '---',
     ...orgs.flatMap((org, i) =>
       addLineIfCondition(
-        toArchivedReposLines(org, false),
+        toOwnerWithReposLine(org, false),
         '---',
         i !== orgs.length - 1,
       ),
@@ -72,11 +72,27 @@ export function toArchivedReposResultLines(
   ];
 }
 
-function toArchivedReposLines(
-  archivedRepos: ArchivedRepos,
+export function toOrgReposLines(
+  reposByOrg: readonly OwnerWithRepos[],
+): readonly string[] {
+  return [
+    '## Org Repos',
+    '',
+    ...reposByOrg.flatMap((org, i) =>
+      addLineIfCondition(
+        toOwnerWithReposLine(org, false),
+        '---',
+        i !== reposByOrg.length - 1,
+      ),
+    ),
+  ];
+}
+
+function toOwnerWithReposLine(
+  ownerWithRepos: OwnerWithRepos,
   isUser: boolean,
 ): readonly string[] {
-  const { owner, repos } = archivedRepos;
+  const { owner, repos } = ownerWithRepos;
 
   const title = isUser ? `### User ('${owner}')` : `### Org ('${owner}')`;
 

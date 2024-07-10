@@ -8,11 +8,16 @@ import { Config } from '../types';
 import { RepoData } from './types';
 import {
   toArchivedReposResultLines,
+  toOrgReposLines,
   toPrimaryGroupsLines,
   toRepoLine,
 } from './writing';
-import { getActiveUserRepos, groupUserRepos } from './util';
-import { getArchivedRepos } from './util/archived-repos';
+import {
+  getActiveUserRepos,
+  getArchivedRepos,
+  getOrgRepos,
+  groupUserRepos,
+} from './util';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Any = any;
@@ -97,6 +102,9 @@ function toMarkdown(username: string, repos: readonly RepoData[]): string {
   const groupedRepos = groupUserRepos(validUserRepos);
   const primaryGroupsLines = toPrimaryGroupsLines(groupedRepos);
 
+  const orgRepos = getOrgRepos(username, repos);
+  const orgReposLines = toOrgReposLines(orgRepos);
+
   const archivedRepos = getArchivedRepos(username, repos);
   const archivedReposLines = toArchivedReposResultLines(archivedRepos);
 
@@ -109,7 +117,7 @@ function toMarkdown(username: string, repos: readonly RepoData[]): string {
       ...primaryGroupsLines,
       '---',
       '---',
-      '## Org Repos',
+      ...orgReposLines,
       '---',
       '---',
       '---',

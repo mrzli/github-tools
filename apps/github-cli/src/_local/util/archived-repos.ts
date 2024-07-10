@@ -1,5 +1,5 @@
 import { applyFn } from '@gmjs/apply-function';
-import { ArchivedRepos, ArchivedReposResult, RepoData } from '../types';
+import { ArchivedReposResult, OwnerWithRepos, RepoData } from '../types';
 import { filter, groupBy, map, sort, toArray } from '@gmjs/value-transformers';
 import { compareByStringAsc } from '@gmjs/comparers';
 
@@ -15,12 +15,12 @@ export function getArchivedRepos(
 
   const userRepos = reposByOwner.get(username) ?? [];
 
-  const user: ArchivedRepos = {
+  const user: OwnerWithRepos = {
     owner: username,
     repos: userRepos.toSorted(compareByStringAsc((repo) => repo.name)),
   };
 
-  const byOrg: readonly ArchivedRepos[] = applyFn(
+  const byOrg: readonly OwnerWithRepos[] = applyFn(
     reposByOwner,
     filter(([owner]) => owner !== username),
     sort(compareByStringAsc(([owner]) => owner)),
