@@ -9,6 +9,7 @@ export const LIST_OF_REPO_TOPICS: readonly string[] = [
   'tools',
   'sites',
   'trading',
+  'example',
 ] as const;
 
 export type RepoTopic = (typeof LIST_OF_REPO_TOPICS)[number];

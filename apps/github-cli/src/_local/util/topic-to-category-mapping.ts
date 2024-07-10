@@ -26,4 +26,5 @@ export const TOPIC_TO_CATEGORY_MAPPING: ReadonlyMap<string, RepoCategory> =
     ['tools', { order: 8, primary: 'Tools', secondary: EMPTY_GROUP_NAME }],
     ['sites', { order: 9, primary: 'Sites', secondary: EMPTY_GROUP_NAME }],
     ['trading', { order: 10, primary: 'Trading', secondary: EMPTY_GROUP_NAME }],
+    ['example', { order: 11, primary: 'Example', secondary: EMPTY_GROUP_NAME }],
   ]);
