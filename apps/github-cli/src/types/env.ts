@@ -1,4 +1,6 @@
 export interface Env {
   readonly nodeEnv: string;
-  readonly githubPat: string;
+  readonly githubApiUrl: string;
+  readonly githubApiVersion: string;
+  readonly githubApiToken: string;
 }

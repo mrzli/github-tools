@@ -14,7 +14,7 @@
     "url": "https://github.com/mrzli/repo-list"
   },
   "type": "commonjs",
-  "main": "./src/index.js",
+  "main": "./src/index.ts",
   "scripts": {
     "dev": "ts-node src/index.ts",
     "lint": "eslint --fix . && prettier --write .",
@@ -30,7 +30,7 @@
     "pub+": "pnpm run pac+ && pnpm run pub"
   },
   "dependencies": {
-    "octokit": "^4.0.2",
+    "axios": "^1.7.2",
     "tslib": "^2.6.3"
   },
   "devDependencies": {
