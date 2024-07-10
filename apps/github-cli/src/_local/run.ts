@@ -4,12 +4,17 @@ import {
   GithubApiInput,
 } from '@gmjs/repo-list';
 import { writeTextAsync } from '@gmjs/file-system';
-import { parseIntegerOrThrow } from '@gmjs/number-util';
 import { Config } from '../types';
 import { createConfig, parseEnv } from '../config';
+import { invariant } from '@gmjs/assert';
+import { applyFn } from '@gmjs/apply-function';
+import { filterOutNullish, map, toArray } from '@gmjs/value-transformers';
+import { PairWithArrayValue, RepoData } from './types';
+import { validateUserRepo } from './validate-repos';
+import { toPrimaryGroupsLines, toRepoLine } from './writing';
+import { groupRepos } from './group-repos';
 
 import '../setup/setup-env';
-import { filterOutNullish } from '@gmjs/array-transformers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Any = any;
@@ -76,6 +81,7 @@ export async function run(config: Config): Promise<void> {
 
 function toRepoData(repo: Any): RepoData {
   return {
+    id: repo.id,
     owner: repo.owner.login,
     name: repo.name,
     url: repo.html_url,
@@ -86,48 +92,45 @@ function toRepoData(repo: Any): RepoData {
   };
 }
 
-type PairWithArrayValue<T> = readonly [string, readonly T[]];
-
-interface RepoData {
-  readonly owner: string; // owner.login
-  readonly name: string; // name
-  readonly url: string; // html_url
-  readonly description: string; // description
-  readonly private: boolean; // private
-  readonly archived: boolean; // archived
-  readonly topics: readonly string[]; // topics
-}
-
 function toMarkdown(
   username: string,
   userRepos: readonly RepoData[],
   perOrgRepos: readonly PairWithArrayValue<RepoData>[],
 ): string {
+  const userRepoErrors = applyFn(
+    userRepos,
+    map((repo) => validateUserRepo(repo)),
+    filterOutNullish(),
+    toArray(),
+  );
+
+  if (userRepoErrors.length > 0) {
+    console.error(`Found errors in ${userRepoErrors.length} user repos:`);
+    const errors = userRepoErrors.map((e) => e.error);
+    console.error(JSON.stringify(errors, undefined, 2));
+    // invariant(false, 'User repo errors found.');
+  }
+
+  const invalidUserRepos: ReadonlySet<number> = new Set(
+    userRepoErrors.map((e) => e.id),
+  );
+
+  const validUserRepos = userRepos.filter(
+    (repo) => !invalidUserRepos.has(repo.id),
+  );
+
+  const groupedRepos = groupRepos(validUserRepos);
+  const primaryGroupsLines = toPrimaryGroupsLines(groupedRepos);
+
   return (
     [
       '# Repos',
       '',
       `## User Repos ('${username}')`,
       '',
-      ...userRepos.map((r) => toRepoLine(r)),
+      ...primaryGroupsLines,
     ].join('\n') + '\n'
   );
-}
-
-function toRepoLine(repo: RepoData): string {
-  const parts: readonly string[] = filterOutNullish([
-    '-',
-    repo.archived ? '**A**' : undefined,
-    repo.private ? '**P**' : undefined,
-    `[${repo.name}](${repo.url})`,
-    '-',
-    isEmpty(repo.description) ? '&lt;NO-DESCRIPTION&gt;' : `_${repo.description}_`,
-  ]);
-  return parts.join(' ');
-}
-
-function isEmpty(str: string | undefined | null): boolean {
-  return str === undefined || str === null || str === '';
 }
 
 run(CONFIG).finally(() => {

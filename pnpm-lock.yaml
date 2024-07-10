@@ -14,9 +14,21 @@ importers:
 
   apps/github-cli:
     dependencies:
+      '@gmjs/apply-function':
+        specifier: ^0.0.3
+        version: 0.0.3
       '@gmjs/array-transformers':
         specifier: ^0.0.3
         version: 0.0.3
+      '@gmjs/assert':
+        specifier: ^0.0.6
+        version: 0.0.6
+      '@gmjs/comparers':
+        specifier: ^0.0.1
+        version: 0.0.1
+      '@gmjs/data-container-util':
+        specifier: ^0.0.1
+        version: 0.0.1
       '@gmjs/file-system':
         specifier: ^0.0.3
         version: 0.0.3
@@ -29,6 +41,9 @@ importers:
       '@gmjs/repo-list':
         specifier: workspace:^
         version: link:../../libs/repo-list
+      '@gmjs/value-transformers':
+        specifier: ^0.0.15
+        version: 0.0.15
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -332,9 +347,29 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@gmjs/apply-function@0.0.3':
+    resolution: {integrity: sha512-J+GYW5yTBEjryQsqm7rQn4KXr9aoDExyXhzxa6LwOy0UDKSceYVmLAex6ut1hN4RYi8FsXZIJGeAdI1w5qaRfg==}
+    engines: {node: '>=18.17.0'}
+
   '@gmjs/array-transformers@0.0.3':
     resolution: {integrity: sha512-8tZJ4QURa127TWyBNOU90W/Jy1xi10ztwHOD6cV2A1+mWw+WjiypLukXYPPgTs2n/Eh2POBGU5Vh5DugdKSJTg==}
     engines: {node: '>=20.10.0'}
+
+  '@gmjs/assert@0.0.6':
+    resolution: {integrity: sha512-eVzr9x1a/6Zk/nYGjWFfpdOysiEbcNAc9CosMVXak/jS4wi1dTwCwR4EQAz7Cx7wAu6rL18KkUvw/6cKcb+MgQ==}
+    engines: {node: '>=16.0.0'}
+
+  '@gmjs/comparers@0.0.1':
+    resolution: {integrity: sha512-PTB+Hw9ftgMFFeUS5jKQH0bQT1dBSSz2nW+l1f+ojMEMFQyMzAn+bQSbJNa+JLmi5o4d6jMEwt2DT/y1NFJTpg==}
+    engines: {node: '>=20.10.0'}
+
+  '@gmjs/compose-function@0.0.2':
+    resolution: {integrity: sha512-QuG9lFPiRzcmjIiHA5EdC8EjvWxGpjGa17WZcunHCUPmca8F7E6dU5WPLoHGrv7r91mjzB+ZMJRunGwXY6XAJQ==}
+    engines: {node: '>=16.0.0'}
+
+  '@gmjs/data-container-util@0.0.1':
+    resolution: {integrity: sha512-mN6k1VWxiFWNSpeS2vr+sTlBleh277RNaTfI4isRjsl8m481EWDXNNoqWy3RVtfAldKMpwO/ppLZRiR6E2bmIw==}
+    engines: {node: '>=16.0.0'}
 
   '@gmjs/eslint-config@0.0.38':
     resolution: {integrity: sha512-L1jX9vGmADVneBE3UkDFQ96rLt5aRW1lmEtkE5PsUdXNlWAwQjQH8/MGDgB5cbXHoUAVGK1/lZJFwaAFeEjk2w==}
@@ -359,6 +394,14 @@ packages:
     resolution: {integrity: sha512-ddkBi8VvKuqVggHL4acQpz0jjf4NkB0HXHwESe+cXLUkXPtRvLYYL/SCmDWcGDuOj+9h4YoRJj+tGEc8JOhQJQ==}
     engines: {node: '>=16.0.0'}
 
+  '@gmjs/generic-functions@0.0.1':
+    resolution: {integrity: sha512-EysFNLu8R6VR1AivcnY9RKK8SwDRnoQmcWZ/viQqnuroGjobWW+F/z3DCbb1mC3hCISGWO+E0aIy/85nT96veg==}
+    engines: {node: '>=16.0.0'}
+
+  '@gmjs/generic-types@0.0.1':
+    resolution: {integrity: sha512-qsC2OGxamsN3oJ9z1R9TyZh3DouXTA4UDPJMMimIy1m6rbbBmBumFY5w8Bh9/7i4yltVmcx6Ccyt3lGuusVM2Q==}
+    engines: {node: '>=16.0.0'}
+
   '@gmjs/number-util@0.0.3':
     resolution: {integrity: sha512-+2Tktd3RdDVttk3OFxdD5U18/Fw6+ejSfT0b9URL5FmRNoYEmRthrEX2yrBdubCeb5ifxOZlHH2YNR3UfspSaA==}
     engines: {node: '>=16.0.0'}
@@ -371,6 +414,10 @@ packages:
     resolution: {integrity: sha512-j1+7Hq5YqAZlUXFaqa+3HUDNF1zGXUhuYcfl3FILu0La4RTMIeDJa98SfQuPv3bR73Jf/wQdGXCdvVQlRodgag==}
     engines: {node: '>=22.3.0'}
     hasBin: true
+
+  '@gmjs/value-transformers@0.0.15':
+    resolution: {integrity: sha512-wvr76nxpPRjI5TE1bsZaEDJo4Fk46PDAGHCnZUhEsyvpE9uUupHLHOCAnRxDqhZLXrtw3QNIr8JpOj7YLSHb/Q==}
+    engines: {node: '>=20.10.0'}
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -3210,7 +3257,31 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
+  '@gmjs/apply-function@0.0.3':
+    dependencies:
+      '@gmjs/compose-function': 0.0.2
+      '@gmjs/generic-types': 0.0.1
+      tslib: 2.6.3
+
   '@gmjs/array-transformers@0.0.3':
+    dependencies:
+      tslib: 2.6.3
+
+  '@gmjs/assert@0.0.6':
+    dependencies:
+      tslib: 2.6.3
+
+  '@gmjs/comparers@0.0.1':
+    dependencies:
+      tslib: 2.6.3
+
+  '@gmjs/compose-function@0.0.2':
+    dependencies:
+      '@gmjs/generic-functions': 0.0.1
+      '@gmjs/generic-types': 0.0.1
+      tslib: 2.6.3
+
+  '@gmjs/data-container-util@0.0.1':
     dependencies:
       tslib: 2.6.3
 
@@ -3301,6 +3372,14 @@ snapshots:
       klaw-sync: 6.0.0
       tslib: 2.6.3
 
+  '@gmjs/generic-functions@0.0.1':
+    dependencies:
+      tslib: 2.6.3
+
+  '@gmjs/generic-types@0.0.1':
+    dependencies:
+      tslib: 2.6.3
+
   '@gmjs/number-util@0.0.3':
     dependencies:
       tslib: 2.6.3
@@ -3321,6 +3400,12 @@ snapshots:
       fs-extra: 11.2.0
       glob: 10.4.5
       rxjs: 7.8.1
+      tslib: 2.6.3
+
+  '@gmjs/value-transformers@0.0.15':
+    dependencies:
+      '@gmjs/compose-function': 0.0.2
+      '@gmjs/generic-types': 0.0.1
       tslib: 2.6.3
 
   '@humanwhocodes/module-importer@1.0.1': {}
