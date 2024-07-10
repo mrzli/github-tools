@@ -1,10 +1,13 @@
 import { Command } from 'commander';
+import { Config, Program } from '../../../types';
 
 type OptionValue = string;
 type Options = Readonly<Record<string, OptionValue | undefined>>;
 
-export function addCommandExample(program: Command): Command {
-  program
+export function addCommandExample(program: Program): Command {
+  const { command, config } = program;
+
+  command
     .command('example')
     .alias('e')
     .description('Example command')
@@ -14,17 +17,22 @@ export function addCommandExample(program: Command): Command {
       'Some option',
       'some-option-default-value',
     )
-    .action(action);
+    .action(createAction(config));
 
-  return program;
+  return command;
 }
 
-async function action(
+function createAction(
+  config: Config,
+): (
   someArgument: string,
   options: Options,
-  _command: Command
-): Promise<void> {
-  console.log('Example command executed!');
-  console.log('Arguments:', someArgument);
-  console.log('Options:', options);
+  _command: Command,
+) => Promise<void> {
+  return async (someArgument, options, _command) => {
+    console.log('Example command executed!');
+    console.log('Arguments:', someArgument);
+    console.log('Options:', options);
+    console.log('Config:', config);
+  };
 }

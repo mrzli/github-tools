@@ -1,13 +1,21 @@
-import { join } from 'node:path';
+import nodePath from 'node:path';
 import { Command } from 'commander';
 import { readPackageJsonSync } from '@gmjs/package-json';
+import { Config, Program } from '../types';
 
-export function createProgram(): Command {
-  const program = new Command();
-  program
+export function createProgram(config: Config): Program {
+  const rootCommand = new Command();
+  rootCommand
     .name('gmgh')
     .description('github-cli')
-    .version(readPackageJsonSync(join(__dirname, '../..')).version ?? '');
+    .version(
+      readPackageJsonSync(nodePath.join(__dirname, '../..')).version ?? '',
+    );
+
+  const program: Program = {
+    command: rootCommand,
+    config,
+  };
 
   return program;
 }
