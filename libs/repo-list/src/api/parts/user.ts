@@ -5,6 +5,7 @@ import { githubApiRequest } from '../shared';
 export interface GithubApiUser {
   readonly getCurrent: () => Promise<Any>;
   readonly getOrgs: () => Promise<Any>;
+  readonly getRepos: () => Promise<Any>;
 }
 
 export function createGithubApiUser(api: AxiosInstance): GithubApiUser {
@@ -18,7 +19,13 @@ export function createGithubApiUser(api: AxiosInstance): GithubApiUser {
     getOrgs: async (): Promise<Any> => {
       return await githubApiRequest<undefined, Any>(api, {
         method: 'GET',
-        path: `/user/orgs`,
+        path: '/user/orgs',
+      });
+    },
+    getRepos: async (): Promise<Any> => {
+      return await githubApiRequest<undefined, Any>(api, {
+        method: 'GET',
+        path: '/user/repos',
       });
     },
   };

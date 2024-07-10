@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { GithubApiInput, GithubApiRequestConfig } from './types';
-import { createGithubApiUser, GithubApiUser } from './parts';
+import {
+  createGithubApiOrgs,
+  createGithubApiUser,
+  GithubApiOrgs,
+  GithubApiUser,
+} from './parts';
 import { githubApiRequest } from './shared';
 
 export interface GithubApi {
@@ -8,6 +13,7 @@ export interface GithubApi {
     config: GithubApiRequestConfig<TRequestData>,
   ) => Promise<TResponseData>;
   readonly user: GithubApiUser;
+  readonly orgs: GithubApiOrgs;
 }
 
 export function createGithubApi(input: GithubApiInput): GithubApi {
@@ -27,6 +33,7 @@ export function createGithubApi(input: GithubApiInput): GithubApi {
       return await githubApiRequest<TRequestData, TResponseData>(api, config);
     },
     user: createGithubApiUser(api),
+    orgs: createGithubApiOrgs(api),
   };
 }
 

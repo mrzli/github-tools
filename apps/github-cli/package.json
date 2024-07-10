@@ -34,6 +34,7 @@
     "pub+": "pnpm run pac+ && pnpm run pub"
   },
   "dependencies": {
+    "@gmjs/file-system": "^0.0.3",
     "@gmjs/package-json": "^0.0.2",
     "@gmjs/repo-list": "workspace:^",
     "commander": "^12.1.0",
