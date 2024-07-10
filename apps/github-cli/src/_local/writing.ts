@@ -1,6 +1,6 @@
 import { filterOutNullish as filterOutNullishArray } from '@gmjs/array-transformers';
 import { RepoData } from './types';
-import { RepoPrimaryGroup, RepoSecondaryGroup } from './util/group-repos';
+import { RepoPrimaryGroup, RepoSecondaryGroup } from './util/group-user-repos';
 
 export function toPrimaryGroupsLines(
   primaryGroups: readonly RepoPrimaryGroup[],

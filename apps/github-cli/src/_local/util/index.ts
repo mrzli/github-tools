@@ -1,3 +1,3 @@
-export * from './group-repos';
+export * from './group-user-repos';
 export * from './topic-to-category-mapping';
-export * from './validate-repos';
+export * from './validate-user-repo';

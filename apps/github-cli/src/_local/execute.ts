@@ -14,7 +14,7 @@ import {
 } from '@gmjs/value-transformers';
 import { RepoData } from './types';
 import { toPrimaryGroupsLines } from './writing';
-import { groupRepos, validateUserRepo } from './util';
+import { groupUserRepos, validateUserRepo } from './util';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Any = any;
@@ -95,7 +95,7 @@ function toRepoData(repo: Any): RepoData {
 function toMarkdown(username: string, repos: readonly RepoData[]): string {
   const validUserRepos = getValidActiveUserRepos(username, repos);
 
-  const groupedRepos = groupRepos(validUserRepos);
+  const groupedRepos = groupUserRepos(validUserRepos);
   const primaryGroupsLines = toPrimaryGroupsLines(groupedRepos);
 
   return (

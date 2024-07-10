@@ -20,7 +20,7 @@ export interface RepoSecondaryGroup {
   readonly repos: readonly RepoData[];
 }
 
-export function groupRepos(
+export function groupUserRepos(
   repos: readonly RepoData[],
 ): readonly RepoPrimaryGroup[] {
   const result: readonly RepoPrimaryGroup[] = applyFn(
