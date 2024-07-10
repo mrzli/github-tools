@@ -1,10 +1,10 @@
-import { AxiosInstance } from 'axios';
-import { GithubApiRequestConfig } from './types';
+import { AxiosInstance, AxiosResponse } from 'axios';
+import { GithubApiRequestConfig, GithubPagingData } from './types';
 
 export async function githubApiRequest<TRequestData, TResponseData>(
   instance: AxiosInstance,
   config: GithubApiRequestConfig<TRequestData>,
-): Promise<TResponseData> {
+): Promise<AxiosResponse<TResponseData>> {
   const { method, path, headers, params, data, timeout } = config;
 
   const response = await instance.request<TResponseData>({
@@ -16,7 +16,20 @@ export async function githubApiRequest<TRequestData, TResponseData>(
     timeout,
   });
 
-  const responseData = response.data;
+  return response;
+}
 
-  return responseData;
+export function toGithubPagingHeaders(
+  pagingData: GithubPagingData | undefined,
+): Readonly<Record<string, string | undefined>> {
+  if (pagingData === undefined) {
+    return {};
+  }
+
+  const { page, perPage } = pagingData;
+
+  return {
+    page: page?.toString(),
+    per_page: perPage?.toString(),
+  };
 }

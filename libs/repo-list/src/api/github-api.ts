@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { GithubApiInput, GithubApiRequestConfig } from './types';
 import {
   createGithubApiOrgs,
@@ -11,7 +11,7 @@ import { githubApiRequest } from './shared';
 export interface GithubApi {
   readonly request: <TRequestData, TResponseData>(
     config: GithubApiRequestConfig<TRequestData>,
-  ) => Promise<TResponseData>;
+  ) => Promise<AxiosResponse<TResponseData>>;
   readonly user: GithubApiUser;
   readonly orgs: GithubApiOrgs;
 }
@@ -29,7 +29,7 @@ export function createGithubApi(input: GithubApiInput): GithubApi {
   return {
     request: async <TRequestData, TResponseData>(
       config: GithubApiRequestConfig<TRequestData>,
-    ): Promise<TResponseData> => {
+    ): Promise<AxiosResponse<TResponseData>> => {
       return await githubApiRequest<TRequestData, TResponseData>(api, config);
     },
     user: createGithubApiUser(api),
