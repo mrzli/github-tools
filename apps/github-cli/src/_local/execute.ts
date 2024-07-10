@@ -5,16 +5,14 @@ import {
 } from '@gmjs/repo-list';
 import { writeTextAsync } from '@gmjs/file-system';
 import { Config } from '../types';
-import { applyFn } from '@gmjs/apply-function';
-import {
-  filter,
-  filterOutNullish,
-  map,
-  toArray,
-} from '@gmjs/value-transformers';
 import { RepoData } from './types';
-import { toPrimaryGroupsLines } from './writing';
-import { groupUserRepos, validateUserRepo } from './util';
+import {
+  toArchivedReposResultLines,
+  toPrimaryGroupsLines,
+  toRepoLine,
+} from './writing';
+import { getActiveUserRepos, groupUserRepos } from './util';
+import { getArchivedRepos } from './util/archived-repos';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Any = any;
@@ -93,10 +91,14 @@ function toRepoData(repo: Any): RepoData {
 }
 
 function toMarkdown(username: string, repos: readonly RepoData[]): string {
-  const validUserRepos = getValidActiveUserRepos(username, repos);
+  const activeUserRepos = getActiveUserRepos(username, repos);
+  const { valid: validUserRepos, invalid: invalidUserRepos } = activeUserRepos;
 
   const groupedRepos = groupUserRepos(validUserRepos);
   const primaryGroupsLines = toPrimaryGroupsLines(groupedRepos);
+
+  const archivedRepos = getArchivedRepos(username, repos);
+  const archivedReposLines = toArchivedReposResultLines(archivedRepos);
 
   return (
     [
@@ -107,40 +109,21 @@ function toMarkdown(username: string, repos: readonly RepoData[]): string {
       ...primaryGroupsLines,
       '---',
       '---',
+      '## Org Repos',
+      '---',
+      '---',
+      '---',
+      ...archivedReposLines,
+      ...(invalidUserRepos.length > 0
+        ? [
+            '---',
+            '---',
+            '---',
+            '## Invalid User Repos',
+            '',
+            ...invalidUserRepos.map((repo) => toRepoLine(repo)),
+          ]
+        : []),
     ].join('\n') + '\n'
   );
-}
-
-function getValidActiveUserRepos(
-  username: string,
-  repos: readonly RepoData[],
-): readonly RepoData[] {
-  const activeUserRepos = repos.filter(
-    (repo) => repo.owner === username && !repo.archived,
-  );
-
-  const userRepoErrors = applyFn(
-    activeUserRepos,
-    filter((repo) => repo.owner === username && !repo.archived),
-    map((repo) => validateUserRepo(repo)),
-    filterOutNullish(),
-    toArray(),
-  );
-
-  if (userRepoErrors.length > 0) {
-    console.error(`Found errors in ${userRepoErrors.length} user repos:`);
-    const errors = userRepoErrors.map((e) => e.error);
-    console.error(JSON.stringify(errors, undefined, 2));
-    // invariant(false, 'User repo errors found.');
-  }
-
-  const invalidUserRepoIds: ReadonlySet<number> = new Set(
-    userRepoErrors.map((e) => e.id),
-  );
-
-  const validUserRepos = activeUserRepos.filter(
-    (repo) => !invalidUserRepoIds.has(repo.id),
-  );
-
-  return validUserRepos;
 }

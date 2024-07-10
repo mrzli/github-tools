@@ -1,15 +1,16 @@
 import { filterOutNullish as filterOutNullishArray } from '@gmjs/array-transformers';
-import { RepoData } from './types';
+import { ArchivedRepos, ArchivedReposResult, RepoData } from './types';
 import { RepoPrimaryGroup, RepoSecondaryGroup } from './util/group-user-repos';
 
 export function toPrimaryGroupsLines(
   primaryGroups: readonly RepoPrimaryGroup[],
 ): readonly string[] {
   return primaryGroups.flatMap((pg, i) =>
-    filterOutNullishArray([
-      ...toPrimaryGroupLines(pg),
-      i === primaryGroups.length - 1 ? undefined : '---',
-    ]),
+    addLineIfCondition(
+      toPrimaryGroupLines(pg),
+      '---',
+      i !== primaryGroups.length - 1,
+    ),
   );
 }
 
@@ -19,10 +20,11 @@ function toPrimaryGroupLines(group: RepoPrimaryGroup): readonly string[] {
     `### ${primary}`,
     '',
     ...secondaryGroups.flatMap((sg, i) =>
-      filterOutNullishArray([
-        ...toSecondaryGroupLines(sg),
-        i === secondaryGroups.length - 1 ? undefined : '',
-      ]),
+      addLineIfCondition(
+        toSecondaryGroupLines(sg),
+        '',
+        i === secondaryGroups.length - 1,
+      ),
     ),
   ];
 }
@@ -32,7 +34,7 @@ function toSecondaryGroupLines(group: RepoSecondaryGroup): readonly string[] {
   return [`#### ${secondary}`, '', ...repos.map((repo) => toRepoLine(repo))];
 }
 
-function toRepoLine(repo: RepoData): string {
+export function toRepoLine(repo: RepoData): string {
   const parts: readonly string[] = filterOutNullishArray([
     '-',
     repo.archived ? '**A**' : undefined,
@@ -48,4 +50,43 @@ function toRepoLine(repo: RepoData): string {
 
 function isEmpty(str: string | undefined | null): boolean {
   return str === undefined || str === null || str === '';
+}
+
+export function toArchivedReposResultLines(
+  archivedRepos: ArchivedReposResult,
+): readonly string[] {
+  const { user, orgs } = archivedRepos;
+
+  return [
+    '## Archived Repos',
+    '',
+    ...toArchivedReposLines(user, true),
+    '---',
+    ...orgs.flatMap((org, i) =>
+      addLineIfCondition(
+        toArchivedReposLines(org, false),
+        '---',
+        i !== orgs.length - 1,
+      ),
+    ),
+  ];
+}
+
+function toArchivedReposLines(
+  archivedRepos: ArchivedRepos,
+  isUser: boolean,
+): readonly string[] {
+  const { owner, repos } = archivedRepos;
+
+  const title = isUser ? `### User ('${owner}')` : `### Org ('${owner}')`;
+
+  return [title, '', ...repos.map((repo) => toRepoLine(repo))];
+}
+
+function addLineIfCondition(
+  lines: readonly string[],
+  lineToAdd: string,
+  condition: boolean,
+): readonly string[] {
+  return condition ? [...lines, lineToAdd] : lines;
 }
