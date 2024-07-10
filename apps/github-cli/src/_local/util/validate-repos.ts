@@ -1,4 +1,4 @@
-import { LIST_OF_REPO_TOPICS, RepoData } from './types';
+import { LIST_OF_REPO_TOPICS, RepoData } from '../types';
 
 const VALID_TOPICS: ReadonlySet<string> = new Set(LIST_OF_REPO_TOPICS);
 

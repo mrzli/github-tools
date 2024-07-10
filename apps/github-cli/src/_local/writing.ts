@@ -1,6 +1,6 @@
 import { filterOutNullish as filterOutNullishArray } from '@gmjs/array-transformers';
 import { RepoData } from './types';
-import { RepoPrimaryGroup, RepoSecondaryGroup } from './group-repos';
+import { RepoPrimaryGroup, RepoSecondaryGroup } from './util/group-repos';
 
 export function toPrimaryGroupsLines(
   primaryGroups: readonly RepoPrimaryGroup[],
@@ -8,7 +8,7 @@ export function toPrimaryGroupsLines(
   return primaryGroups.flatMap((pg, i) =>
     filterOutNullishArray([
       ...toPrimaryGroupLines(pg),
-      i === primaryGroups.length - 1 ? undefined : '',
+      i === primaryGroups.length - 1 ? undefined : '---',
     ]),
   );
 }
@@ -16,7 +16,7 @@ export function toPrimaryGroupsLines(
 function toPrimaryGroupLines(group: RepoPrimaryGroup): readonly string[] {
   const { primary, secondaryGroups } = group;
   return [
-    `## ${primary}`,
+    `### ${primary}`,
     '',
     ...secondaryGroups.flatMap((sg, i) =>
       filterOutNullishArray([
@@ -29,10 +29,10 @@ function toPrimaryGroupLines(group: RepoPrimaryGroup): readonly string[] {
 
 function toSecondaryGroupLines(group: RepoSecondaryGroup): readonly string[] {
   const { secondary, repos } = group;
-  return [`### ${secondary}`, '', ...repos.map((repo) => toRepoLine(repo))];
+  return [`#### ${secondary}`, '', ...repos.map((repo) => toRepoLine(repo))];
 }
 
-export function toRepoLine(repo: RepoData): string {
+function toRepoLine(repo: RepoData): string {
   const parts: readonly string[] = filterOutNullishArray([
     '-',
     repo.archived ? '**A**' : undefined,

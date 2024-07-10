@@ -1,8 +1,8 @@
 import { applyFn } from '@gmjs/apply-function';
-import { RepoCategory, RepoData } from './types';
+import { RepoCategory, RepoData } from '../types';
 import { groupBy, map, sort, toArray } from '@gmjs/value-transformers';
 import { mapGetOrThrow } from '@gmjs/data-container-util';
-import { TOPIC_TO_CATEGORY_MAPPING } from './util';
+import { TOPIC_TO_CATEGORY_MAPPING } from './topic-to-category-mapping';
 import { compareByNumberAsc, compareByStringAsc } from '@gmjs/comparers';
 
 interface CategoryRepoPair {
