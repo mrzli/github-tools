@@ -9,6 +9,7 @@ export const LIST_OF_REPO_TOPICS: readonly string[] = [
   'tools',
   'sites',
   'trading',
+  'problems',
   'example',
 ] as const;
 

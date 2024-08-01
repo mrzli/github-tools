@@ -1,6 +1,7 @@
 import { filterOutNullish as filterOutNullishArray } from '@gmjs/array-transformers';
 import { ArchivedReposResult, OwnerWithRepos, RepoData } from './types';
 import { RepoPrimaryGroup, RepoSecondaryGroup } from './util/group-user-repos';
+import { EMPTY_GROUP_NAME } from './util';
 
 export function toPrimaryGroupsLines(
   primaryGroups: readonly RepoPrimaryGroup[],
@@ -31,7 +32,9 @@ function toPrimaryGroupLines(group: RepoPrimaryGroup): readonly string[] {
 
 function toSecondaryGroupLines(group: RepoSecondaryGroup): readonly string[] {
   const { secondary, repos } = group;
-  return [`#### ${secondary}`, '', ...repos.map((repo) => toRepoLine(repo))];
+  const titleLines =
+    secondary === EMPTY_GROUP_NAME ? [] : [`#### ${secondary}`, ''];
+  return [...titleLines, ...repos.map((repo) => toRepoLine(repo))];
 }
 
 export function toRepoLine(repo: RepoData): string {
