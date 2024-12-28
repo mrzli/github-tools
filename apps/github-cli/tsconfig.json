@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*.ts", "../../libs/repo-list/src/api/request-helpers.ts"],
+  "include": ["src/**/*.ts"],
   "compilerOptions": {
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
