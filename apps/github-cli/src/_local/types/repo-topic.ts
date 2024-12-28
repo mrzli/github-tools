@@ -7,6 +7,7 @@ export const LIST_OF_REPO_TOPICS: readonly string[] = [
   'libs-development-util',
   'libs-test-util',
   'tools',
+  'setup',
   'sites',
   'trading',
   'problems',
