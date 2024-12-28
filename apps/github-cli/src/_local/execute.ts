@@ -7,6 +7,8 @@ import { writeTextAsync } from '@gmjs/file-system';
 import { Config } from '../types';
 import { RepoData } from './types';
 import {
+  EMPTY_STRING,
+  separatorLines,
   toArchivedReposResultLines,
   toOrgReposLines,
   toPrimaryGroupsLines,
@@ -111,24 +113,19 @@ function toMarkdown(username: string, repos: readonly RepoData[]): string {
   return (
     [
       '# Repos',
-      '',
+      EMPTY_STRING,
       `## User Repos ('${username}')`,
-      '',
+      EMPTY_STRING,
       ...primaryGroupsLines,
-      '---',
-      '---',
+      ...separatorLines(2),
       ...orgReposLines,
-      '---',
-      '---',
-      '---',
+      ...separatorLines(3),
       ...archivedReposLines,
       ...(invalidUserRepos.length > 0
         ? [
-            '---',
-            '---',
-            '---',
+            ...separatorLines(3),
             '## Invalid User Repos',
-            '',
+            EMPTY_STRING,
             ...invalidUserRepos.map((repo) => toRepoLine(repo)),
           ]
         : []),
