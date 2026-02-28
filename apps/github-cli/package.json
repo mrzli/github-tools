@@ -14,25 +14,19 @@
     "url": "https://github.com/mrzli/github-cli"
   },
   "type": "commonjs",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "bin": {
-    "gmgh": "src/index.js"
+    "gmgh": "dist/index.js"
   },
   "scripts": {
-    "dev": "ts-node src/_local/run.ts",
-    "dev:watch": "nodemon src/_local/run.ts",
-    "devl": "ts-node src/index.ts",
-    "lint": "eslint --fix . && prettier --write .",
-    "lint:nofix": "eslint . && prettier --check .",
-    "test": "jest --passWithNoTests",
-    "test+": "pnpm run lint && pnpm run test",
-    "clean": "shx rm -rf ./dist",
-    "build": "pnpm run clean && tsc --project tsconfig.lib.json",
-    "build+": "pnpm run test+ && pnpm run build",
-    "pac": "pnpmpub pack -c project.json",
-    "pac+": "pnpm run build+ && pnpm run pac",
-    "pub": "pnpmpub pub -c project.json",
-    "pub+": "pnpm run pac+ && pnpm run pub"
+    "dev": "bun src/_local/run.ts",
+    "dev:watch": "bun --watch src/_local/run.ts",
+    "devl": "bun src/index.ts",
+    "test": "bun test",
+    "test+": "bun run test",
+    "clean": "rm -rf ./dist",
+    "build": "bun run clean && bun build src/index.ts --outdir dist --target node --format cjs",
+    "build+": "bun run test+ && bun run build"
   },
   "dependencies": {
     "@gmjs/apply-function": "^0.0.3",
@@ -49,20 +43,6 @@
     "dotenv": "^16.4.5",
     "tslib": "^2.6.3",
     "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@gmjs/eslint-config": "^0.0.38",
-    "@gmjs/pnpm-publish-cli": "^0.0.5",
-    "@jest/globals": "^29.7.0",
-    "@types/node": "^20.14.10",
-    "eslint": "^9.6.0",
-    "jest": "^29.7.0",
-    "nodemon": "^3.1.4",
-    "prettier": "^3.3.2",
-    "shx": "^0.3.4",
-    "ts-jest": "^29.2.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.5.3"
   },
   "engines": {
     "node": ">=22.3.0"

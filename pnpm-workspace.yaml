@@ -1,5 +1,0 @@
-packages:
-  - 'apps/**'
-  - 'libs/**'
-minimumReleaseAge: 10080
-ignoreDepScripts: true

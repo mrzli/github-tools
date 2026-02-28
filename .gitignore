@@ -1,3 +1,4 @@
 /node_modules/
-/.nx/
+/bun.lockb
+/bun.lock
 /tmp/

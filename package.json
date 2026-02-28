@@ -3,15 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "packageManager": "bun@1.2.22",
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
   "scripts": {
-    "dev2": "pnpm run --filter=trading-chart-demo dev",
-    "dev": "pnpm run --filter=vdom-demo dev",
-    "rl": "pnpm run --filter=github-cli dev"
+    "dev": "bun run --cwd apps/github-cli dev",
+    "dev:watch": "bun run --cwd apps/github-cli dev:watch",
+    "test": "bun test",
+    "build": "bun run --cwd apps/github-cli build && bun run --cwd libs/repo-list build"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "nx": "^19.4.0"
-  }
+  "license": "ISC"
 }

@@ -21,7 +21,6 @@ import {
   groupUserRepos,
 } from './util';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Any = any;
 
 const ITEMS_PER_PAGE = 30;
