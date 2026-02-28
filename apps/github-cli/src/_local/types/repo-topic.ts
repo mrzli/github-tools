@@ -9,6 +9,7 @@ export const LIST_OF_REPO_TOPICS: readonly string[] = [
   'tools',
   'setup',
   'sites',
+  'template',
   'trading',
   'problems',
   'example',
