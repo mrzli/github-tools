@@ -3,6 +3,7 @@ import {
   getAllRequestItems,
   GithubApiInput,
 } from '@gmjs/repo-list';
+import { mkdir } from 'node:fs/promises';
 import { writeTextAsync } from '@gmjs/file-system';
 import { Config } from '../types';
 import { RepoData } from './types';
@@ -80,6 +81,7 @@ export async function execute(config: Config): Promise<void> {
   // );
 
   const markdown = toMarkdown(username, userReposData);
+  await mkdir('output', { recursive: true });
   await writeTextAsync('output/repo-list.md', markdown);
 }
 
